@@ -107,7 +107,7 @@ var generateRandomAds = function () {
       guests: getRandomElement(AD_DATA.OFFER.GUESTS),
       checkin: getRandomElement(AD_DATA.OFFER.CHECKIN),
       checkout: getRandomElement(AD_DATA.OFFER.CHECKOUT),
-      features: getRandomElement(AD_DATA.OFFER.FEATURES),
+      features: AD_DATA.OFFER.FEATURES,
       description: getRandomElement(AD_DATA.OFFER.DESCRIPTION),
       photos: getRandomElement(AD_DATA.OFFER.PHOTOS),
       locationX: getRandomElement(AD_DATA.LOCATION.X),
