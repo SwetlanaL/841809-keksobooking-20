@@ -1,62 +1,10 @@
 'use strict';
 
-// var MAP_WIDTH = 1200;
-// var MAP_PIN_WIDTH = 65;
-//
-// //
-//
-//
-//
-// var mapPins = document.querySelector('.map__pins');
-// var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
-//
-// var renderPinTemplate = function (ad) {
-//   var pin = pinTemplate.cloneNode(true);
-//   pin.querySelector('img').src = ad.avatar;
-//   pin.querySelector('img').alt = ad.title;
-//   pin.style.left = ad.locationX + 'px';
-//   pin.style.top = ad.locationY + 'px';
-//   return pin;
-// };
-//
-// var generateRandomAds = function () {
-//   var randomAds = [];
-//   for (var i = 0; i < AD_DATA.ADS_NUMBER; i++) {
-//     randomAds.push({
-//       avatar: getRandomElement(AD_DATA.AUTHOR.AVATAR),
-//       title: getRandomElement(AD_DATA.OFFER.TITLE),
-//       price: getRandomElement(AD_DATA.OFFER.PRICE),
-//       type: getRandomElement(AD_DATA.OFFER.TYPE),
-//       rooms: getRandomElement(AD_DATA.OFFER.ROOMS),
-//       guests: getRandomElement(AD_DATA.OFFER.GUESTS),
-//       checkin: getRandomElement(AD_DATA.OFFER.CHECKIN),
-//       checkout: getRandomElement(AD_DATA.OFFER.CHECKOUT),
-//       features: AD_DATA.OFFER.FEATURES,
-//       description: getRandomElement(AD_DATA.OFFER.DESCRIPTION),
-//       photos: getRandomElement(AD_DATA.OFFER.PHOTOS),
-//       locationX: getRandomElement(AD_DATA.LOCATION.X),
-//       locationY: getRandomElement(AD_DATA.LOCATION.Y),
-//     });
-//   }
-//   return randomAds;
-// };
-//
-// var renderPins = function () {
-//   var fragment = document.createDocumentFragment();
-//   var pins = generateRandomAds();
-//   for (var i = 0; i < pins.length; i++) {
-//     fragment.appendChild(renderPinTemplate(pins[i]));
-//   }
-//   mapPins.appendChild(fragment);
-// };
-//
-// renderPins();
 var appLocationMap = document.querySelector('.map');
 appLocationMap.classList.remove('map--faded');
 
 var ADS_NUMBER = 8;
 var TITLE = 'Прелестная квартира в центре';
-var ADDRESS = '600, 350';
 var PRICE = 1;
 var TYPES = ['palace', 'flat', 'house', 'bungalo'];
 var ROOMS = 1;
@@ -127,8 +75,8 @@ function getObject() {
       photos: getRandomElementsArray(PHOTOS),
     },
     location: {
-        x: locationX,
-        y: locationY,
+      x: locationX,
+      y: locationY,
     },
   };
   return object;
@@ -145,7 +93,7 @@ var getArray = function () {
 var mapPins = document.querySelector('.map__pins');
 var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
 
-var renderPinTemplate = function (element, template) {
+var renderPinTemplate = function (element) {
   var pin = pinTemplate.cloneNode(true);
   pin.querySelector('img').src = element.author.avatar;
   pin.querySelector('img').alt = element.offer.title;
