@@ -1,24 +1,41 @@
 'use strict';
 
+var ENTER_KEY = 'Enter';
+
 var PinSize = {
   WIDTH: 65,
   HEIGHT: 65,
   ARROW_HEIGHT: 18,
 };
 
-var RoomNumber = {
-  ONE: '1',
-  TWO: '2',
-  THREE: '3',
-  HUNDRED: '100',
-};
+// var capacity = [ {
+//   rooms: 1,
+//   guests: 1
+// }, {
+//   rooms: 2,
+//   guests: 2
+// }, {
+//   rooms: 3,
+//   guests: 3
+// }, {
+//   rooms: 100,
+//   guests: 0
+// } ];
 
-var GuestNumber = {
-  ONE: '1',
-  TWO: '2',
-  THREE: '3',
-  NOT_FOR_GUESTS: '100',
-};
+
+// var RoomNumber = {
+//   ONE: '1',
+//   TWO: '2',
+//   THREE: '3',
+//   HUNDRED: '100',
+// };
+//
+// var GuestNumber = {
+//   ONE: '1',
+//   TWO: '2',
+//   THREE: '3',
+//   NOT_FOR_GUESTS: '0',
+// };
 
 var appLocationMap = document.querySelector('.map');
 var mainPin = document.querySelector('.map__pin--main');
@@ -61,10 +78,12 @@ var activatePage = function () {
   mapPins.appendChild(createElements(getArray(), pinTemplate));
   mainPinStartPosition();
   mainPin.style.zIndex = '2';
+  mainPin.removeEventListener('keydown', onEnterPress);
+  mainPin.removeEventListener('mousedown', onMouseDown);
 };
 
 var onEnterPress = function (evt) {
-  if (evt.key === 'Enter') {
+  if (evt.key === ENTER_KEY) {
     evt.preventDefault();
     activatePage();
   }
@@ -79,23 +98,22 @@ var onMouseDown = function (evt) {
 
 var validateGuestNumber = function () {
   var warningMessage = '';
+  var rooms = parseInt(roomNumberSelection.value, 10);
+  var guests = parseInt(guestNumberSelection.value, 10);
 
-  if (roomNumberSelection.value === RoomNumber.ONE) {
-    if (guestNumberSelection.value !== GuestNumber.ONE) {
-      warningMessage = 'Выберите не более одного гостя';
-    }
-  } else if (roomNumberSelection.value === RoomNumber.TWO) {
-    if (guestNumberSelection.value !== GuestNumber.TWO && guestNumberSelection.value !== GuestNumber.ONE) {
-      warningMessage = 'Вы можете выбрать не более двух гостей';
-    }
-  } else if (roomNumberSelection.value === RoomNumber.THREE) {
-    if (guestNumberSelection.value !== GuestNumber.THREE && guestNumberSelection.value !== GuestNumber.TWO && guestNumberSelection.value !== GuestNumber.ONE) {
-      warningMessage = 'Вы можете выбрать не более трёх гостей';
-    }
-  } else if (roomNumberSelection.value === RoomNumber.HUNDRED) {
-    if (guestNumberSelection.value !== GuestNumber.NOT_FOR_GUESTS) {
+  switch (true) {
+    case rooms === 100 && guests !== 0:
       warningMessage = 'Это предложение не предназначено для гостей';
-    }
+      break;
+    case rooms !== 100 && guests === 0:
+      warningMessage = 'Выберите количество гостей';
+      break;
+    case rooms < guests && rooms === 2:
+      warningMessage = 'Вы можете выбрать не более двух гостей';
+      break;
+    case rooms < guests && rooms === 1:
+      warningMessage = 'Вы можете выбрать только одного гостя';
+      break;
   }
   guestNumberSelection.setCustomValidity(warningMessage);
 };
@@ -110,9 +128,6 @@ var startPage = function () {
   });
 };
 
-mainPin.removeEventListener('keydown', onEnterPress);
-mainPin.removeEventListener('mousedown', onMouseDown);
-
 startPage();
 
 var ADS_NUMBER = 8;
@@ -126,7 +141,6 @@ var FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditio
 var DESCRIPTION = 'Описание';
 var PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
 var MAP_WIDTH = 1200;
-var MAP_PIN_WIDTH = 65;
 
 var getRandomNumberInRange = function (min, max) {
   min = Math.ceil(min);
@@ -166,7 +180,7 @@ var getUserAvatars = function () {
 var AVATAR = getUserAvatars();
 
 function getObject() {
-  var locationX = getRandomNumberInRange(0, MAP_WIDTH - MAP_PIN_WIDTH);
+  var locationX = getRandomNumberInRange(0, MAP_WIDTH - PinSize.WIDTH);
   var locationY = getRandomNumberInRange(130, 630);
 
   var object = {
